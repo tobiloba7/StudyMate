@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <title>{{ StudyMate }}</title>
+</head>
+<body>
+    <div class="navigation">
+        <div class="logo"><a href="#" alt="Logo">StudyMate</a></div>
+        <div class="nav-links">
+            <a href="{{ url_for('create_routine') }}">Study Routine</a>
+            <a href="{{ url_for('completed_routines') }}">Completed Routines</a>
+            <a href="{{ url_for('logout') }}" class="button">Log Out</a>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="centered-content">
+            {% block centered_content %}
+                <h1>Welcome, click the plus to get started !</h1>
+                <a href="{{ url_for('create_routine') }}" class="cta-button">+</a>
+            {% endblock %}
+        </div>
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
