@@ -1,85 +1,61 @@
-<!-- {% extends 'layout.html' %}
-
-{% block centered_content %} -->
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='createroutine.css') }}">
-<body class="createroutine-body">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Routine</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='createroutine.css') }}"
+    />
+  </head>
+  <body class="createroutine-body">
     <main class="app">
-		<!-- Naming Study Routine,  -->
-		<section class="greeting">
-			<h2 class="title">
-				Study Name; <input type="text" id="name" placeholder="What's your routine name" />
-			</h2>
-		</section>
+      <!-- Combined Form for Routine and Task -->
+      <section class="create-todo">
+        <form action="{{ url_for('create_routine') }}" method="post">
+          <input type="hidden" name="form_type" value="routine" />
+          <!-- Routine Name Form -->
+          <section class="greeting">
+            <h2 class="title">Study Name:</h2>
+            <input
+              type="text"
+              name="name"
+              placeholder="What's your routine name"
+              required
+            />
+            <input type="submit" value="Submit Routine" />
+          </section>
+        </form>
 
-        <!-- New Study List -->
-		<section class="create-todo">
-			<form id="new-todo-form">
-
-				<h4>What's are your studying today?</h4>
-				<input 
-					type="text" 
-					placeholder="e.g. add study here"
-					name="content"
-					id="content" />
-
-				<h4>Pick a category</h4>
-				<div class="options">
-					<label>
-						<input type="radio" name="category" id="category1" value="business" /> 
-						<span class="bubble business"></span>
-						<div>StudyTag1</div>
-					</label>
-					<label>
-						<input type="radio" name="category" id="category2" value="personal" />
-						<span class="bubble personal"></span>
-						<div>Studytag2</div>
-					</label>
-				</div>
-
-				<input type="submit" value="Add to study" />
-			</form>
-		</section>
-
-    <!-- Study List -->
-		<section class="todo-list">
-			<h3>STUDY LIST</h3>
-			<div class="list" id="todo-list"></div>
-			<!-- Item2 -->
-                <div class="todo-item">
-                    <label>
-                        <input type="checkbox" />
-                        <span class="bubble business"></span>
-                    </label>
-
-                    <div class="todo-content">
-                        <input type="text" value = "study something" readonly>
-                    </div>
-
-                    <div class="actions">
-                        <button class="edit">Edit</button>
-                        <button class="edit">Delete</button>
-                    </div>
-				</div>
-
-				<!-- Item2 -->
-                    <div class="todo-item">
-                        <label>
-                            <input type="checkbox" />
-                            <span class="bubble personal"></span>
-                        </label>
-
-                        <div class="todo-content">
-                            <input type="text" value = "study another thing" readonly>
-                        </div>
-
-                        <div class="actions">
-                            <button class="edit">Edit</button>
-                            <button class="edit">Delete</button>
-                        </div>
-                    </div>
-				<a href="{{ url_for('completed_routines') }}" class="complete-study-link">Move to Completed Routines</a>
-			</section>
-		<!-- End of Study List -->
+        <form action="{{ url_for('create_routine') }}" method="post">
+          <input type="hidden" name="form_type" value="task" />
+          <!-- Task Creation Form -->
+          <section class="create-todo">
+            <h4>What are you studying today?</h4>
+            <input
+              type="text"
+              name="name"
+              placeholder="Routine Name"
+              required
+            />
+            <input
+              type="text"
+              name="content"
+              placeholder="e.g. add study here"
+              required
+            />
+            <input
+              type="text"
+              name="category"
+              placeholder="Category"
+              required
+            />
+            <input type="submit" value="Add to Study" />
+          </section>
+        </form>
+      </section>
     </main>
-</body>
-{% endblock %}
+  </body>
+</html>

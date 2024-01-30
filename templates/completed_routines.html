@@ -1,0 +1,13 @@
+{% extends 'layout.html' %} {% block centered_content %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='createroutine.css') }}"
+/>
+<h1>Completed Routines</h1>
+<ul>
+  {% for routine in routines %}
+  <li>{{ routine }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}
