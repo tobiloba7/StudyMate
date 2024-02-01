@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Cave Todo List</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <h1 class="headers">Edit Todo List</h1>
+    <form action="{{ url_for('edit', id=task.id) }}" method="post">
+      <input type="text" name="todo" value="{{ task.task }}" />
+      <button type="submit">Save</button>
+    </form>
+    <a href="{{ url_for('index') }}">Back to Todo List</a>
+  </body>
+</html>
