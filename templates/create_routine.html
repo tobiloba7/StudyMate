@@ -13,7 +13,7 @@
   <body class="createroutine-body">
     <main class="app">
       <!-- Combined Form for Routine and Task -->
-      <section class="create-todo">
+      <section class="create-study-item">
         <form action="{{ url_for('create_routine') }}" method="post">
           <input type="hidden" name="form_type" value="routine" />
           <!-- Routine Name Form -->
@@ -32,7 +32,7 @@
         <form action="{{ url_for('create_routine') }}" method="post">
           <input type="hidden" name="form_type" value="task" />
           <!-- Task Creation Form -->
-          <section class="create-todo">
+          <section class="create-study-item">
             <h4>What are you studying today?</h4>
             <input
               type="text"

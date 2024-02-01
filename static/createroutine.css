@@ -31,12 +31,12 @@ body {
   margin-bottom: 1rem;
 }
 
-.todo-list {
+.study_lists {
   list-style: none;
   padding: 0;
 }
 
-.todo-item {
+.study_items {
   display: flex;
   align-items: center;
   background-color: #fff;
@@ -46,20 +46,20 @@ body {
   margin-bottom: 1rem;
 }
 
-.todo-item label {
+.study_items label {
   margin-right: 1rem;
   cursor: pointer;
 }
 
-.todo-item input[type="checkbox"] {
+.study_items input[type="checkbox"] {
   cursor: pointer;
 }
 
-.todo-item span {
+.study_items span {
   font-size: 1.125rem;
 }
 
-.todo-item .actions {
+.study_items .actions {
   margin-left: auto;
 }
 
