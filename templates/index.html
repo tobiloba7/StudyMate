@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudyMate</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='createroutine.css') }}"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1 class="headers">{{ username }}'s Study Items</h1>
+      <p>What would you like to study today?!</p>
+      <ul class="study_list">
+        {% for study_items in tasks %}
+        <li class="study_items {% if study_items.done %}done{% endif %}">
+          <label>
+            <input
+              type="checkbox"
+              name="done"
+              {%
+              if
+              study_items.done
+              %}checked{%
+              endif
+              %}
+              disabled
+              onchange="this.form.submit()"
+            />
+            <span>{{ study_items.task }}</span>
+          </label>
+          <div class="actions">
+            <a
+              class="button check-button"
+              href="{{ url_for('check', id=study_items.id) }}"
+              >Check</a
+            >
+            <a
+              class="button edit-button"
+              href="{{ url_for('edit', id=study_items.id) }}"
+              >Edit</a
+            >
+            <a
+              class="button delete-button"
+              href="{{ url_for('delete', id=study_items.id) }}"
+              >Delete</a
+            >
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      <form action="{{ url_for('add') }}" method="post">
+        <input type="text" name="study_items" placeholder="example: 'Mathematics'" />
+        <button type="submit">Add Study Item</button>
+      </form>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+  </body>
+</html>
