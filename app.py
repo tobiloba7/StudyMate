@@ -10,7 +10,7 @@ from datetime import datetime
 app = Flask(__name__)
 
 # Configure the SQLAlchemy database URI and set a secret key
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///study_items.db'
 app.config['SECRET_KEY'] = 'code_cave'  
 
 # Initialize the SQLAlchemy extension and the LoginManager
@@ -133,10 +133,10 @@ def index():
 @app.route('/add', methods=['POST'])
 @login_required
 def add():
-    task_text = request.form['todo'].strip()  # Remove leading/trailing whitespace
+    task_text = request.form['study_items'].strip()  # Remove leading/trailing whitespace
 
     if not task_text:  # Check if the task is empty after stripping whitespace
-        flash('Cannot add an empty todo. Please enter a task.', 'error')
+        flash('Cannot add an empty study item. Please enter a task.', 'error')
         return redirect(url_for('index'))
 
     new_task = Task(task=task_text, user_id=current_user.id)
@@ -151,7 +151,7 @@ def add():
 def edit(id):
     task = Task.query.get(id)
     if request.method == 'POST':
-        task.task = request.form['todo']
+        task.task = request.form['study_items']
         db.session.commit()
         return redirect(url_for('index'))
     else:
@@ -181,6 +181,8 @@ def delete(id):
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+
 
 # Run the application in debug mode
 if __name__ == '__main__':

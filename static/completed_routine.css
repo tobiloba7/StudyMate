@@ -1,0 +1,62 @@
+
+
+/* Import styles from createroutine.css */
+@import url('createroutine.css');
+
+/* Additional styles for completed routine */
+body {
+  background: var(--light);
+  color: var(--dark);
+}
+
+.container {
+  max-width: 600px;
+}
+
+.headers {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--dark);
+}
+
+.study_items {
+  background-color: var(--light);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.study_items.done {
+  background-color: #d3d3d3;
+}
+
+.study_items label {
+  cursor: pointer;
+}
+
+.study_items .actions {
+  margin-left: auto;
+}
+
+.button {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.check-button {
+  background-color: var(--primary);
+  margin-right: 0.5rem;
+}
+
+.edit-button {
+  background-color: #3a82ee;
+  margin-right: 0.5rem;
+}
+
+.delete-button {
+  background-color: var(--danger);
+}
+
+.button:hover {
+  opacity: 0.75;
+}

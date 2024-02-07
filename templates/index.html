@@ -2,48 +2,49 @@
 <html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Code Cave Todo List</title>
+    <title>StudyMate</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='createroutine.css') }}"
     />
   </head>
+
   <body>
     <div class="container">
       <h1 class="headers">{{ username }}'s Study Items</h1>
       <p>What would you like to study today?!</p>
-      <ul class="todo-list">
-        {% for todo in tasks %}
-        <li class="todo-item {% if todo.done %}done{% endif %}">
+      <ul class="study_list">
+        {% for study_items in tasks %}
+        <li class="study_items {% if study_items.done %}done{% endif %}">
           <label>
             <input
               type="checkbox"
               name="done"
               {%
               if
-              todo.done
+              study_items.done
               %}checked{%
               endif
               %}
               disabled
               onchange="this.form.submit()"
             />
-            <span>{{ todo.task }}</span>
+            <span>{{ study_items.task }}</span>
           </label>
           <div class="actions">
             <a
               class="button check-button"
-              href="{{ url_for('check', id=todo.id) }}"
+              href="{{ url_for('check', id=study_items.id) }}"
               >Check</a
             >
             <a
               class="button edit-button"
-              href="{{ url_for('edit', id=todo.id) }}"
+              href="{{ url_for('edit', id=study_items.id) }}"
               >Edit</a
             >
             <a
               class="button delete-button"
-              href="{{ url_for('delete', id=todo.id) }}"
+              href="{{ url_for('delete', id=study_items.id) }}"
               >Delete</a
             >
           </div>
