@@ -16,13 +16,16 @@
 body {
   background: var(--light);
   color: var(--dark);
-  font-family: "montserrat", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .container {
   margin: 2rem auto;
-  padding: 0 1rem;
+  padding: 2rem;
   max-width: 600px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .headers {
@@ -71,7 +74,7 @@ body {
   cursor: pointer;
   transition: opacity 0.2s ease-in-out;
   text-decoration: none;
-  color: #fff;
+  color: #5f2020;
   font-weight: 700;
   text-align: center;
 }
