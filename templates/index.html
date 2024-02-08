@@ -52,7 +52,7 @@
         {% endfor %}
       </ul>
       <form action="{{ url_for('add') }}" method="post">
-        <input type="text" name="todo" placeholder="Example: 'Mathematics'" />
+        <input type="text" name="study_items" placeholder="Example: 'Mathematics'" />
         <button type="submit" class="button">Add Study Item</button>
       </form>
       <a href="{{ url_for('logout') }}">Logout</a>
