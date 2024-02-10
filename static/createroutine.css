@@ -50,7 +50,7 @@ body {
 }
 
 .study_items label {
-  margin-right: 1rem;
+  margin-right: 0.9rem;
   cursor: pointer;
 }
 
@@ -59,7 +59,7 @@ body {
 }
 
 .study_items span {
-  font-size: 1.125rem;
+  font-size: 0.99rem;
 }
 
 .study_items .actions {
@@ -75,24 +75,36 @@ body {
   transition: opacity 0.2s ease-in-out;
   text-decoration: none;
   color: #5f2020;
-  font-weight: 700;
+  font-weight: 500;
   text-align: center;
+  font-size: 10px;
 }
 
 .check-button {
   background-color: var(--primary);
   margin-right: 0.5rem;
+  color: white;
 }
 
 .edit-button {
   background-color: #3a82ee;
   margin-right: 0.5rem;
+  color: white;
 }
 
 .delete-button {
   background-color: var(--danger);
+  color: white;
 }
 
 .button:hover {
   opacity: 0.75;
+}
+
+.study_items input[type="checkbox"] {
+  background-color: #000000;
+}
+
+.study_items input[type="checkbox"]:checked {
+  background-color: var(--primary);
 }
