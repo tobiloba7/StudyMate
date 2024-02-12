@@ -106,6 +106,11 @@ def layout():
 @login_required
 def index():
     tasks = current_user.tasks
+   # Retrieve the first five tasks for the current user
+    tasks = Task.query.filter_by(user_id=current_user.id).limit(5).all()
+    
+    # Retrieve all tasks for the current user beyond the first five
+    remaining_tasks = Task.query.filter_by(user_id=current_user.id).offset(5).all()
     username = current_user.username  # Get the current user's username
 
     try:
@@ -127,7 +132,7 @@ def index():
     except Exception as e:
         datetime_info = "N/A"
 
-    return render_template('index.html', tasks=tasks, username=username, datetime_info=datetime_info)
+    return render_template('index.html', tasks=tasks, remaining_tasks=remaining_tasks, username=username, datetime_info=datetime_info)
 
 # Route to add a new task
 @app.route('/add', methods=['POST'])
@@ -138,6 +143,7 @@ def add():
     if not task_text:  # Check if the task is empty after stripping whitespace
         flash('Cannot add an empty study item. Please enter a task.', 'error')
         return redirect(url_for('index'))
+    
 
     new_task = Task(task=task_text, user_id=current_user.id)
     db.session.add(new_task)

@@ -1,61 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>StudyMate</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='createroutine.css') }}"
-    />
-  </head>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyMate</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='createroutine.css') }}" />
+</head>
 
-  <body>
-    <div class="container">
-      <h1 class="headers">{{ username }}'s Study Items</h1>
-      <p>What would you like to study today?!</p>
-      <ul class="study_list">
-        {% for study_items in tasks %}
-        <li class="study_items {% if study_items.done %}done{% endif %}">
-          <label>
-            <input
-              type="checkbox"
-              name="done"
-              {%
-              if
-              study_items.done
-              %}checked{%
-              endif
-              %}
-              disabled
-              onchange="this.form.submit()"
-            />
-            <span>{{ study_items.task }}</span>
-          </label>
-          <div class="actions">
-            <a
-              class="button check-button"
-              href="{{ url_for('check', id=study_items.id) }}"
-              >Check</a
-            >
-            <a
-              class="button edit-button"
-              href="{{ url_for('edit', id=study_items.id) }}"
-              >Edit</a
-            >
-            <a
-              class="button delete-button"
-              href="{{ url_for('delete', id=study_items.id) }}"
-              >Delete</a
-            >
-          </div>
-        </li>
-        {% endfor %}
+<body>
+  <div class="container">
+    <h1 class="headers">{{ username }}'s Study Items</h1>
+    <p>What would you like to study today?!</p>
+    <ul class="study_list">
+      {% for study_items in tasks %}
+      <li class="study_items {% if study_items.done %}done{% endif %}">
+        <label>
+          <input
+            type="checkbox"
+            name="done"
+            {%
+            if
+            study_items.done
+            %}checked{%
+            endif
+            %}
+            disabled
+            onchange="this.form.submit()"
+          />
+          <span>{{ study_items.task }}</span>
+        </label>
+        <div class="actions">
+          <a
+            class="button check-button"
+            href="{{ url_for('check', id=study_items.id) }}"
+            >Check</a
+          >
+          <a
+            class="button edit-button"
+            href="{{ url_for('edit', id=study_items.id) }}"
+            >Edit</a
+          >
+          <a
+            class="button delete-button"
+            href="{{ url_for('delete', id=study_items.id) }}"
+            >Delete</a
+          >
+        </div>
+      </li>
+      {% if loop.index == 5 %}
       </ul>
-      <form action="{{ url_for('add') }}" method="post">
-        <input type="text" name="study_items" placeholder="Example: 'Mathematics'" />
-        <button type="submit" class="button">Add Study Item</button>
-      </form>
-      <a href="{{ url_for('logout') }}">Logout</a>
-    </div>
-  </body>
+      <button type="button" class="collapsible">Show More</button>
+      <div class="content" style="display: none;">
+        <ul class="study_list">
+      {% endif %}
+      {% endfor %}
+      {% for study_items in remaining_tasks %}
+      <li class="study_items {% if study_items.done %}done{% endif %}">
+        <label>
+          <input
+            type="checkbox"
+            name="done"
+            {%
+            if
+            study_items.done
+            %}checked{%
+            endif
+            %}
+            disabled
+            onchange="this.form.submit()"
+          />
+          <span>{{ study_items.task }}</span>
+        </label>
+        <div class="actions">
+          <a
+            class="button check-button"
+            href="{{ url_for('check', id=study_items.id) }}"
+            >Check</a
+          >
+          <a
+            class="button edit-button"
+            href="{{ url_for('edit', id=study_items.id) }}"
+            >Edit</a
+          >
+          <a
+            class="button delete-button"
+            href="{{ url_for('delete', id=study_items.id) }}"
+            >Delete</a
+          >
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <form action="{{ url_for('add') }}" method="post">
+    <input type="text" name="study_items" placeholder="Example: 'Mathematics'" />
+    <button type="submit" class="button">Add Study Item</button>
+  </form>
+  <a href="{{ url_for('logout') }}">Logout</a>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var coll = document.querySelector(".collapsible");
+      var content = document.querySelector(".content");
+
+      coll.addEventListener("click", function() {
+        if (content.style.display === "none" || content.style.display === "") {
+          content.style.display = "block";
+        } else {
+          content.style.display = "none";
+        }
+      });
+    });
+  </script>
+</body>
 </html>
