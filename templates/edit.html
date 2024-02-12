@@ -5,15 +5,17 @@
     <title>StudyMate</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
+      href="{{ url_for('static', filename='createroutine.css') }}"
     />
   </head>
   <body>
-    <h1 class="headers">Edit Study Item</h1>
-    <form action="{{ url_for('edit', id=task.id) }}" method="post">
-      <input type="text" name="study_items" value="{{ task.task }}" />
-      <button type="submit">Save</button>
-    </form>
-    <a href="{{ url_for('index') }}">Back to Study Item</a>
+    <div class="container">
+      <h1 class="headers">Edit Study Item</h1>
+      <form action="{{ url_for('edit', id=task.id) }}" method="post">
+        <input type="text" name="study_items" value="{{ task.task }}" />
+        <button type="submit">Save</button>
+      </form>
+      <a href="{{ url_for('index') }}">Back to Study Items</a>
+    </div>
   </body>
 </html>
