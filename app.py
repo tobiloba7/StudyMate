@@ -151,6 +151,12 @@ def add():
 
     return redirect(url_for('index'))
 
+# Route to move to completed
+@app.route('/completed')
+def completed():
+    completed_tasks = Task.query.filter_by(done=True).all()
+    return render_template('completed_routines.html', completed_task=completed_tasks)
+
 # Route to edit an existing task
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -168,9 +174,11 @@ def edit(id):
 @login_required
 def check(id):
     task = Task.query.get(id)
-    task.done = not task.done
+    task.done = True
+    # task.done = not task.done
     db.session.commit()
-    return redirect(url_for('index'))
+    return redirect(url_for('completed'))
+    
 
 # Route to delete a task
 @app.route('/delete/<int:id>')
@@ -193,3 +201,6 @@ def logout():
 # Run the application in debug mode
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
