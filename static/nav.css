@@ -13,68 +13,12 @@ body {
     font-family: 'montserrat', sans-serif;
 }
 
-
-/* Content Styles */
-.content {
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.centered-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.centered-content h1 {
-    margin-bottom: 20px;
-}
-
-.cta-button {
-    display: inline-block;
-    font-size: 30px;
-    color: white;
-    background-color:  #EA40A4;
-    padding: 10px 20px;
-    border-radius: 50%;
-    text-align: center;
-    cursor: pointer;
-    margin-top: 20px;
-    text-decoration: none;
-}
-
-.cta-button:hover {
-    opacity: 0.75;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Navigation Styles */
-/* .navigation { */
+.navigation {
     /* position: fixed;
     top: 0;
     width: 100%; */
-    /* background-color: #EA40A4;
+    background-color: #EA40A4;
     color: white;
     display: flex;
     align-items: center;
@@ -92,22 +36,21 @@ body {
     font-weight: 600;
     color: white;
     margin-right: auto; 
-} */
+}
 
 /* Link Styles */
-/* .nav-links a {
+.nav-links a {
     color: white;
     font-size: 18px;
     font-weight: bold;
     margin-right: 25px;
-} */
-
+}
 
 /* Button Styles */
-/* .button {
+.navbutton {
     background-color: rgba(168, 28, 110, 0.75);;
     border-radius: 10px;
     padding: 10px;
     width: 90px;
     text-align: center;
-} */
+}

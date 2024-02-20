@@ -10,25 +10,26 @@
     />
     <title>StudyMate</title>
   </head>
+  {% include 'navigation.html' %}
   <body>
-    <div class="navigation">
-      <div class="logo"><a href="#" alt="Logo">StudyMate</a></div>
-      <div class="nav-links">
-        <a href="{{ url_for('index') }}">Study Items</a>
-        <a href="{{ url_for('logout') }}" class="button">Log Out</a>
-      </div>
-    </div>
-
     <div class="content">
       <div class="centered-content">
         {% block centered_content %}
         <h1>Welcome, click the plus to get started!</h1>
-
-        <a href="{{ url_for('index') }}" class="cta-button">+</a>
-
+          <!-- Form Action to add-->
+        <div class="container">
+          <form action="{{ url_for('add') }}" method="post">
+              <input type="text" name="study_items" placeholder="Example: 'Mathematics'" />
+              <button type="submit" class="button">Add Study Item</button>
+          </form>
+<!-- <a href="{{ url_for('logout') }}">Logout</a> -->
+        </div>
         {% endblock %}
       </div>
       <!-- {% block content %}{% endblock %} -->
     </div>
   </body>
 </html>
+
+
+
