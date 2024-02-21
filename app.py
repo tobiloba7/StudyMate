@@ -101,16 +101,14 @@ def register():
 def layout():
     return render_template('layout.html')
 
-# Route to display user tasks on the homepage
+
 @app.route('/')
 @login_required
 def index():
-    tasks = current_user.tasks
-   # Retrieve the first five tasks for the current user
-    tasks = Task.query.filter_by(user_id=current_user.id).limit(5).all()
+    tasks = Task.query.filter_by(user_id=current_user.id, done=False).limit(5).all()
     
-    # Retrieve all tasks for the current user beyond the first five
-    remaining_tasks = Task.query.filter_by(user_id=current_user.id).offset(5).all()
+
+    remaining_tasks = Task.query.filter_by(user_id=current_user.id, done=False).offset(5).all()
     username = current_user.username  # Get the current user's username
 
     try:
@@ -151,11 +149,19 @@ def add():
 
     return redirect(url_for('index'))
 
-# Route to move to completed
+# # Route to move to completed
+# @app.route('/completed')
+# def completed():
+#     completed_tasks = Task.query.filter_by(done=True).all()
+#     return render_template('completed_routines.html', completed_task=completed_tasks)
+
+# Route to display completed tasks for the current user
 @app.route('/completed')
+@login_required
 def completed():
-    completed_tasks = Task.query.filter_by(done=True).all()
-    return render_template('completed_routines.html', completed_task=completed_tasks)
+    completed_tasks = Task.query.filter_by(user_id=current_user.id, done=True).all()
+    return render_template('completed_routines.html', completed_tasks=completed_tasks)
+
 
 # Route to edit an existing task
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
