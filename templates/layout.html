@@ -15,14 +15,18 @@
     <div class="content">
       <div class="centered-content">
         {% block centered_content %}
-        <h1>Welcome, click the plus to get started!</h1>
-          <!-- Form Action to add-->
+        <h1>Add a task, get productive</h1>
+        <!-- Form Action to add-->
         <div class="container">
           <form action="{{ url_for('add') }}" method="post">
-              <input type="text" name="study_items" placeholder="Example: 'Mathematics'" />
-              <button type="submit" class="button">Add Study Item</button>
+            <input
+              type="text"
+              name="study_items"
+              placeholder="Example: 'do X'"
+            />
+            <button type="submit" class="button">Add Study Item</button>
           </form>
-<!-- <a href="{{ url_for('logout') }}">Logout</a> -->
+          <!-- <a href="{{ url_for('logout') }}">Logout</a> -->
         </div>
         {% endblock %}
       </div>
@@ -30,6 +34,3 @@
     </div>
   </body>
 </html>
-
-
-
