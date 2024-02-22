@@ -149,12 +149,6 @@ def add():
 
     return redirect(url_for('index'))
 
-# # Route to move to completed
-# @app.route('/completed')
-# def completed():
-#     completed_tasks = Task.query.filter_by(done=True).all()
-#     return render_template('completed_routines.html', completed_task=completed_tasks)
-
 # Route to display completed tasks for the current user
 @app.route('/completed')
 @login_required
@@ -186,14 +180,31 @@ def check(id):
     return redirect(url_for('completed'))
     
 
-# Route to delete a task
-@app.route('/delete/<int:id>')
+# # Route to delete a task
+# @app.route('/delete/<int:id>')
+# @login_required
+# def delete(id):
+#     task = Task.query.get(id)
+#     db.session.delete(task)
+#     db.session.commit()
+#     return redirect(url_for('index'))
+
+@app.route('/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete(id):
-    task = Task.query.get(id)
-    db.session.delete(task)
-    db.session.commit()
-    return redirect(url_for('index'))
+    task = Task.query.get_or_404(id)
+    
+    if request.method == 'POST':
+        # If the user confirms deletion, delete the task
+        if request.form.get('confirm') == 'yes':
+            db.session.delete(task)
+            db.session.commit()
+            return redirect(url_for('index'))
+        else:
+            # If the user cancels deletion, redirect back to index or any other appropriate page
+            return redirect(url_for('index'))
+    # If it's a GET request, render the confirmation template
+    return render_template('confirm_delete.html', task=task)
 
 # Route for user logout
 @app.route('/logout')
