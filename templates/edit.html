@@ -12,8 +12,8 @@
     <div class="container">
       <h1 class="headers">Edit Study Item</h1>
       <form action="{{ url_for('edit', id=task.id) }}" method="post">
-        <input type="text" name="study_items" value="{{ task.task }}" />
-        <button type="submit">Save</button>
+        <input type="text" name="study_items" value="{{ task.task }}" class="input-field" />
+        <button type="submit" class="input-field">Save</button>
       </form>
       <a href="{{ url_for('index') }}">Back to Study Items</a>
     </div>

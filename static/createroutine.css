@@ -97,6 +97,14 @@ body {
   color: white;
 }
 
+.add-button{
+  background-color: var(--primary);
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  color: white;
+}
+
 .button:hover {
   opacity: 0.75;
 }
@@ -107,4 +115,9 @@ body {
 
 .study_items input[type="checkbox"]:checked {
   background-color: var(--primary);
+}
+
+.input-field{
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
 }

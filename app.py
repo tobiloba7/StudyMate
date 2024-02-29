@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from sqlalchemy.exc import IntegrityError 
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -9,7 +10,9 @@ from datetime import datetime
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///study_items.db'
 app.config['SECRET_KEY'] = 'code_cave'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
@@ -31,6 +34,7 @@ class Task(db.Model):
     task = db.Column(db.String(200), nullable=False)
     done = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    tag = db.Column(db.String(50))  # Adding a new column for tags
 
 with app.app_context():
     db.create_all()
@@ -78,10 +82,12 @@ def register():
 
     return render_template('register.html')
 
+
 @app.route('/layout')
 @login_required
 def layout():
-    return render_template('layout.html')
+    predefined_tags = ['Tag1', 'Tag2', 'Tag3'] # Predefined tags for which users can choose
+    return render_template('layout.html', predefined_tags=predefined_tags)
 
 @app.route('/')
 @login_required
@@ -90,6 +96,7 @@ def index():
     remaining_tasks = Task.query.filter_by(user_id=current_user.id, done=False).offset(5).all()
     username = current_user.username
 
+    predefined_tags = ['Tag1', 'Tag2', 'Tag3']  # Predefined tags for which users can choose
     try:
         response = requests.get('http://worldtimeapi.org/api/timezone/Africa/Lagos')
         response.raise_for_status()
@@ -101,17 +108,20 @@ def index():
     except Exception:
         datetime_info = "N/A"
 
-    return render_template('index.html', tasks=tasks, remaining_tasks=remaining_tasks, username=username, datetime_info=datetime_info)
+    return render_template('index.html', predefined_tags=predefined_tags, tasks=tasks, remaining_tasks=remaining_tasks, username=username, datetime_info=datetime_info)
 
 @app.route('/add', methods=['POST'])
 @login_required
 def add():
     task_text = request.form['study_items'].strip()
+    selected_tag = request.form['tag'] 
+
     if not task_text:
         flash('Cannot add an empty study item. Please enter a task.', 'error')
         return redirect(url_for('index'))
+    
+    new_task = Task(task=task_text, user_id=current_user.id, tag=selected_tag)  # Passing the tag to the Task constructor
 
-    new_task = Task(task=task_text, user_id=current_user.id)
     db.session.add(new_task)
     db.session.commit()
 
@@ -140,7 +150,7 @@ def check(id):
     task = Task.query.get(id)
     task.done = True
     db.session.commit()
-    return redirect(url_for('completed'))
+    return redirect(url_for('index'))
 
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
 @login_required

@@ -7,6 +7,16 @@
 </head>
 {% include 'navigation.html' %}
 <body>
+  <!-- Tag Selection for filtering-->
+  <div class=" container">
+    <h3>Tags:</h3>
+    <ul id="tagList">
+        {% for tag in predefined_tags %}
+            <li><a href="#" class="tag" data-tag="{{ tag }}">{{ tag }}</a></li>
+        {% endfor %}
+        <li><a href="#" class="tag" data-tag="all">All</a></li>
+    </ul>
+  </div>
   <div class="container">
     <h1 class="headers">{{ username }}'s Study Items</h1>
     <p>What would you like to study today?!</p>
@@ -15,6 +25,7 @@
       <li class="study_items {% if study_items.done %}done{% endif %}">
         <label>
           <input
+            style="display: none;"
             type="checkbox"
             name="done"
             {%
@@ -57,6 +68,7 @@
       <li class="study_items {% if study_items.done %}done{% endif %}">
         <label>
           <input
+            style="display: none;"
             type="checkbox"
             name="Done"
             {%
@@ -100,12 +112,14 @@
       coll.addEventListener("click", function() {
         if (content.style.display === "none" || content.style.display === "") {
           content.style.display = "block";
+          coll.textContent = "Show Less";
         } else {
           content.style.display = "none";
+          coll.textContent = "Show More";
         }
       });
     });
   </script>
  </div>
 </body>
-</html>
+</html> 
