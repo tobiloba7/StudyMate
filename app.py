@@ -34,10 +34,23 @@ class Task(db.Model):
     task = db.Column(db.String(200), nullable=False)
     done = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    tag = db.Column(db.String(50))  # Adding a new column for tags
+    tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'))  # Foreign key to Tag table
+
+class Tag(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+    tasks = db.relationship('Task', backref='tag', lazy=True)  # Relationship to Task table
 
 with app.app_context():
     db.create_all()
+    # predefined_tags = ["Tag 1", "Tag 2", "Tag 3"]
+    # for tag_name in predefined_tags:
+    #     tag = Tag.query.filter_by(name=tag_name).first()
+    #     if not tag:
+    #         new_tag = Tag(name=tag_name)
+    #         db.session.add(new_tag)
+    # db.session.commit()
+   
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -86,7 +99,7 @@ def register():
 @app.route('/layout')
 @login_required
 def layout():
-    predefined_tags = ['Tag1', 'Tag2', 'Tag3'] # Predefined tags for which users can choose
+    predefined_tags = Tag.query.all()
     return render_template('layout.html', predefined_tags=predefined_tags)
 
 @app.route('/')
@@ -95,8 +108,8 @@ def index():
     tasks = Task.query.filter_by(user_id=current_user.id, done=False).limit(5).all()
     remaining_tasks = Task.query.filter_by(user_id=current_user.id, done=False).offset(5).all()
     username = current_user.username
+    predefined_tags = Tag.query.all()
 
-    predefined_tags = ['Tag1', 'Tag2', 'Tag3']  # Predefined tags for which users can choose
     try:
         response = requests.get('http://worldtimeapi.org/api/timezone/Africa/Lagos')
         response.raise_for_status()
@@ -110,17 +123,19 @@ def index():
 
     return render_template('index.html', predefined_tags=predefined_tags, tasks=tasks, remaining_tasks=remaining_tasks, username=username, datetime_info=datetime_info)
 
+
+    
 @app.route('/add', methods=['POST'])
 @login_required
 def add():
     task_text = request.form['study_items'].strip()
-    selected_tag = request.form['tag'] 
+    selected_tag_id = request.form['tag']
 
     if not task_text:
         flash('Cannot add an empty study item. Please enter a task.', 'error')
         return redirect(url_for('index'))
     
-    new_task = Task(task=task_text, user_id=current_user.id, tag=selected_tag)  # Passing the tag to the Task constructor
+    new_task = Task(task=task_text, user_id=current_user.id, tag_id=selected_tag_id) 
 
     db.session.add(new_task)
     db.session.commit()
@@ -173,3 +188,4 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
+ 
