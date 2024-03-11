@@ -6,6 +6,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
 from datetime import datetime
+from math import ceil
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///study_items.db'
@@ -43,13 +44,14 @@ class Tag(db.Model):
 
 with app.app_context():
     db.create_all()
-    # predefined_tags = ["Tag 1", "Tag 2", "Tag 3"]
-    # for tag_name in predefined_tags:
-    #     tag = Tag.query.filter_by(name=tag_name).first()
-    #     if not tag:
-    #         new_tag = Tag(name=tag_name)
-    #         db.session.add(new_tag)
-    # db.session.commit()
+    predefined_tags = ["DSA", "TSP", "EYC", "All"]
+    for tag_name in predefined_tags:
+        tag = Tag.query.filter_by(name=tag_name).first()
+        if not tag:
+
+            new_tag = Tag(name=tag_name)
+            db.session.add(new_tag)
+    db.session.commit()
    
 
 @login_manager.user_loader
@@ -99,29 +101,41 @@ def register():
 @app.route('/layout')
 @login_required
 def layout():
-    predefined_tags = Tag.query.all()
+    predefined_tags = [tag.name for tag in Tag.query.all()]
     return render_template('layout.html', predefined_tags=predefined_tags)
 
 @app.route('/')
+@app.route('/<tag>')
 @login_required
 def index():
-    tasks = Task.query.filter_by(user_id=current_user.id, done=False).limit(5).all()
-    remaining_tasks = Task.query.filter_by(user_id=current_user.id, done=False).offset(5).all()
-    username = current_user.username
-    predefined_tags = Tag.query.all()
+    tag = request.args.get('tag')
+    page = request.args.get('page', 1, type=int)  # Get the page number from the URL query parameters
 
-    try:
-        response = requests.get('http://worldtimeapi.org/api/timezone/Africa/Lagos')
-        response.raise_for_status()
-        data = response.json()
-        api_datetime = data['datetime']
-        formatted_datetime = datetime.strptime(api_datetime, '%Y-%m-%dT%H:%M:%S.%f%z')
-        formatted_datetime_str = formatted_datetime.strftime('%A %B %d %Y %H:%M')
-        datetime_info = formatted_datetime_str
-    except Exception:
-        datetime_info = "N/A"
+    # Adjust the query to fetch tasks based on the current page number
+    tasks_query = Task.query.filter_by(user_id=current_user.id, done=False)
+    if tag == 'All':
+        tasks_query = tasks_query.filter_by(user_id=current_user.id)
+    elif tag:
+        tasks_query = tasks_query.filter_by(user_id=current_user.id, tag_id=tag)
 
-    return render_template('index.html', predefined_tags=predefined_tags, tasks=tasks, remaining_tasks=remaining_tasks, username=username, datetime_info=datetime_info)
+    tasks = tasks_query.paginate(page=page, per_page=5)  # Paginate the tasks
+
+    predefined_tags = [tag.name for tag in Tag.query.all()]
+
+    return render_template('index.html', predefined_tags=predefined_tags, tasks=tasks, username=current_user.username)
+
+    # try:
+    #     response = requests.get('http://worldtimeapi.org/api/timezone/Africa/Lagos')
+    #     response.raise_for_status()
+    #     data = response.json()
+    #     api_datetime = data['datetime']
+    #     formatted_datetime = datetime.strptime(api_datetime, '%Y-%m-%dT%H:%M:%S.%f%z')
+    #     formatted_datetime_str = formatted_datetime.strftime('%A %B %d %Y %H:%M')
+    #     datetime_info = formatted_datetime_str
+    # except Exception:
+    #     datetime_info = "N/A"
+
+    # return render_template('index.html', predefined_tags=predefined_tags, tasks=tasks, remaining_tasks=remaining_tasks, username=username, datetime_info=datetime_info)
 
 
     

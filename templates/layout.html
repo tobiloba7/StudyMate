@@ -20,17 +20,22 @@
         <!-- Form Action to add-->
         <div class="container">
           <form action="{{ url_for('add') }}" method="post">
-
             <!-- dropdown to select tags -->
-            <select name="tag"  required>
-              <option value="" selected>Select a tag</option>
+            <select name="tag" required>
+              <option value="" selected>Select a Category</option>
               {% for tag in predefined_tags %}
               <option value="{{ tag }}">{{ tag }}</option>
               {% endfor %}
             </select>
 
             <!-- Action to add- -->
-            <input type="text" class="input-field" name="study_items" placeholder="Example: 'do X'" required>
+            <input
+              type="text"
+              class="input-field"
+              name="study_items"
+              placeholder="Example: 'do X'"
+              required
+            />
             <button type="submit" class="add-button">Add Study Item</button>
           </form>
         </div>
@@ -40,10 +45,7 @@
   </body>
 </html>
 
-
-
-
-    <!-- Form to add a new tag
+<!-- Form to add a new tag
           <form action="{{ url_for('layout') }}" method="GET">
             <label for="new_tag">Add New Tag:</label>
             <input type="text" id="new_tag" name="new_tag" placeholder="Enter new tag">

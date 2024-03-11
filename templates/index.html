@@ -1,125 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StudyMate</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='createroutine.css') }}" />
-</head>
-{% include 'navigation.html' %}
-<body>
-  <!-- Tag Selection for filtering-->
-  <div class=" container">
-    <h3>Tags:</h3>
-    <ul id="tagList">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudyMate</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='createroutine.css') }}"
+    />
+  </head>
+  {% include 'navigation.html' %}
+  <body>
+    <!-- Tag Selection for filtering-->
+    <div class="container">
+      <h3>Categories:</h3>
+      <ul id="tagList">
         {% for tag in predefined_tags %}
-            <li><a href="#" class="tag" data-tag="{{ tag }}">{{ tag }}</a></li>
+        <li>
+          <a href="?tag={{tag}}" class="tag" data-tag="{{ category }}"
+            >{{ tag }}</a
+          >
+        </li>
         {% endfor %}
-        <li><a href="#" class="tag" data-tag="all">All</a></li>
-    </ul>
-  </div>
-  <div class="container">
-    <h1 class="headers">{{ username }}'s Study Items</h1>
-    <p>What would you like to study today?!</p>
-    <ul class="study_list">
-      {% for study_items in tasks %}
-      <li class="study_items {% if study_items.done %}done{% endif %}">
-        <label>
-          <input
-            style="display: none;"
-            type="checkbox"
-            name="done"
-            {%
-            if
-            study_items.done
-            %}checked{%
-            endif
-            %}
-            disabled
-            onchange="this.form.submit()"
-          />
-          <span>{{ study_items.task }}</span>
-        </label>
-        <div class="actions">
-          <a
-            class="button check-button"
-            href="{{ url_for('check', id=study_items.id) }}"
-            >Check</a
-          >
-          <a
-            class="button edit-button"
-            href="{{ url_for('edit', id=study_items.id) }}"
-            >Edit</a
-          >
-          <a
-            class="button delete-button"
-            href="{{ url_for('delete', id=study_items.id) }}"
-            >Delete</a
-          >
-        </div>
-      </li>
-      {% if loop.index == 5 %}
       </ul>
-      <button type="button" class="collapsible">Show More</button>
-      <div class="content" style="display: none;">
-        <ul class="study_list">
-      {% endif %}
-      {% endfor %}
-      {% for study_items in remaining_tasks %}
-      <li class="study_items {% if study_items.done %}done{% endif %}">
-        <label>
-          <input
-            style="display: none;"
-            type="checkbox"
-            name="Done"
-            {%
-            if
-            study_items.done
-            %}checked{%
-            endif
-            %}
-            disabled
-            onchange="this.form.submit()"
-          />
-          <span>{{ study_items.task }}</span>
-        </label>
-        <div class="actions">
-          <a
-            class="button check-button"
-            href="{{ url_for('check', id=study_items.id) }}"
-            >Check</a
-          >
-          <a
-            class="button edit-button"
-            href="{{ url_for('edit', id=study_items.id) }}"
-            >Edit</a
-          >
-          <a
-            class="button delete-button"
-            href="{{ url_for('delete', id=study_items.id) }}"
-            >Delete</a
-          >
-        </div>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      var coll = document.querySelector(".collapsible");
-      var content = document.querySelector(".content");
-
-      coll.addEventListener("click", function() {
-        if (content.style.display === "none" || content.style.display === "") {
-          content.style.display = "block";
-          coll.textContent = "Show Less";
-        } else {
-          content.style.display = "none";
-          coll.textContent = "Show More";
-        }
-      });
-    });
-  </script>
- </div>
-</body>
-</html> 
+    </div>
+    <div class="container">
+      <h1 class="headers">{{ username }}'s Study Items</h1>
+      <ul class="study_list">
+        {% for study_items in tasks %}
+        <!-- <li class="study_items {% if study_items.done %}done{% endif %}"> -->
+        <li
+          class="study_items {% if study_items.done %}done{% endif %}"
+          data-category="{{ study_items.tag.name }}"
+        >
+          <label>
+            <input
+              style="display: none"
+              type="checkbox"
+              name="done"
+              {%
+              if
+              study_items.done
+              %}checked{%
+              endif
+              %}
+              disabled
+              onchange="this.form.submit()"
+            />
+            <span>{{ study_items.task }}</span>
+          </label>
+          <div class="actions">
+            <a
+              class="button check-button"
+              href="{{ url_for('check', id=study_items.id) }}"
+              >Check</a
+            >
+            <a
+              class="button edit-button"
+              href="{{ url_for('edit', id=study_items.id) }}"
+              >Edit</a
+            >
+            <a
+              class="button delete-button"
+              href="{{ url_for('delete', id=study_items.id) }}"
+              >Delete</a
+            >
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      <div class="pagination">
+        {% if tasks.has_prev %}
+        <a
+          href="?page={{ tasks.prev_num }}{% if tag %}&tag={{ tag }}{% endif %}"
+          >&laquo; Previous</a
+        >
+        {% else %}
+        <span class="disabled">&laquo; Previous</span>
+        {% endif %} {% for num in tasks.iter_pages(left_edge=1, right_edge=1,
+        left_current=1, right_current=1) %} {% if num %} {% if num != tasks.page
+        %}
+        <a href="?page={{ num }}{% if tag %}&tag={{ tag }}{% endif %}"
+          >{{ num }}</a
+        >
+        {% else %}
+        <span class="current">{{ num }}</span>
+        {% endif %} {% else %}
+        <span class="ellipsis">...</span>
+        {% endif %} {% endfor %} {% if tasks.has_next %}
+        <a
+          href="?page={{ tasks.next_num }}{% if tag %}&tag={{ tag }}{% endif %}"
+          >Next &raquo;</a
+        >
+        {% else %}
+        <span class="disabled">Next &raquo;</span>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>
