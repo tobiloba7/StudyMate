@@ -16,7 +16,10 @@
       <ul id="tagList">
         {% for tag in predefined_tags %}
         <li>
-          <a href="?tag={{tag}}" class="tag" data-tag="{{ category }}"
+          <a
+            href="{{ url_for('index_with_tag', tag=tag) }}"
+            class="tag"
+            data-tag="{{ category }}"
             >{{ tag }}</a
           >
         </li>
@@ -72,10 +75,10 @@
         {% if tasks.has_prev %}
         <a
           href="?page={{ tasks.prev_num }}{% if tag %}&tag={{ tag }}{% endif %}"
-          >&laquo; Previous</a
+          >&laquo; Prev</a
         >
         {% else %}
-        <span class="disabled">&laquo; Previous</span>
+        <span class="disabled">&laquo; Prev</span>
         {% endif %} {% for num in tasks.iter_pages(left_edge=1, right_edge=1,
         left_current=1, right_current=1) %} {% if num %} {% if num != tasks.page
         %}

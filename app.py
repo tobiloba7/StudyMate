@@ -105,18 +105,28 @@ def layout():
     return render_template('layout.html', predefined_tags=predefined_tags)
 
 @app.route('/')
-@app.route('/<tag>')
 @login_required
 def index():
-    tag = request.args.get('tag')
     page = request.args.get('page', 1, type=int)  # Get the page number from the URL query parameters
 
     # Adjust the query to fetch tasks based on the current page number
     tasks_query = Task.query.filter_by(user_id=current_user.id, done=False)
+    tasks = tasks_query.paginate(page=page, per_page=5)  # Paginate the tasks
+
+    predefined_tags = [tag.name for tag in Tag.query.all()]
+
+    return render_template('index.html', predefined_tags=predefined_tags, tasks=tasks, username=current_user.username)
+
+@app.route('/tag/<tag>')
+@login_required
+def index_with_tag(tag):
+    page = request.args.get('page', 1, type=int)  # Get the page number from the URL query parameters
+
+    # Adjust the query to fetch tasks based on the current page number and the specified tag
     if tag == 'All':
-        tasks_query = tasks_query.filter_by(user_id=current_user.id)
-    elif tag:
-        tasks_query = tasks_query.filter_by(user_id=current_user.id, tag_id=tag)
+        tasks_query = Task.query.filter_by(user_id=current_user.id, done=False)
+    else:
+        tasks_query = Task.query.filter_by(user_id=current_user.id, done=False, tag_id=tag)
 
     tasks = tasks_query.paginate(page=page, per_page=5)  # Paginate the tasks
 
