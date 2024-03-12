@@ -1,13 +1,34 @@
-{% extends 'layout.html' %} {% block centered_content %}
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{{ url_for('static', filename='createroutine.css') }}"
-/>
-<h1>Completed Routines</h1>
-<ul>
-  {% for routine in routines %}
-  <li>{{ routine }}</li>
-  {% endfor %}
-</ul>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudyMate</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='createroutine.css') }}"
+    />
+  </head>
+  {% include 'navigation.html' %}
+  <body>
+    <div class="container">
+      <h1 class="headers">Completed Items</h1>
+      <ul class="study_list">
+        {% for item in completed_tasks %}
+        <li class="study_items">
+          <label>
+            <input type="checkbox" name="Done" checked disabled />
+            <span>{{ item.task }}</span>
+          </label>
+          <div class="actions">
+            <a
+              class="button delete-button"
+              href="{{ url_for('delete', id=item.id) }}"
+              >Delete</a
+            >
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>

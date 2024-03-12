@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ url_for('static', filename='nav.css') }}"
+  />
+  <title>StudyMate</title>
+</head>
+<body>
+  <div class="navigation">
+    <div class="logo"><a href="#" alt="Logo">StudyMate</a></div>
+    <div class="nav-links">
+      <a href="{{ url_for('layout') }} "> Add Item</a>
+      <a href="{{ url_for('index') }}">Study Items</a>
+      <a href="{{ url_for('completed') }}">Completed Items</a>
+      <a href="{{ url_for('logout') }}" class="navbutton">Log Out</a>
+    </div>
+  </div>
+</body>
+</html>

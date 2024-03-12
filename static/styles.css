@@ -13,50 +13,6 @@ body {
     font-family: 'montserrat', sans-serif;
 }
 
-/* Navigation Styles */
-.navigation {
-    /* position: fixed;
-    top: 0;
-    width: 100%; */
-    background-color: #EA40A4;
-    color: white;
-    display: flex;
-    align-items: center;
-    padding: 20px 15px;
-    justify-content: space-between;
-}
-
-.nav-links {
-    display: flex;
-    align-items: center;
-}
-
-.logo a {
-    font-size: 35px;
-    font-weight: 600;
-    color: white;
-    margin-right: auto; 
-}
-
-/* Link Styles */
-.nav-links a {
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    margin-right: 25px;
-}
-
-
-/* Button Styles */
-.button {
-    background-color: rgba(168, 28, 110, 0.75);;
-    border-radius: 10px;
-    padding: 10px;
-    width: 90px;
-    text-align: center;
-}
-
-
 
 /* Content Styles */
 .content {
@@ -93,3 +49,113 @@ body {
 .cta-button:hover {
     opacity: 0.75;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Navigation Styles */
+/* .navigation { */
+    /* position: fixed;
+    top: 0;
+    width: 100%; */
+    /* background-color: #EA40A4;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 20px 15px;
+    justify-content: space-between;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+}
+
+.logo a {
+    font-size: 35px;
+    font-weight: 600;
+    color: white;
+    margin-right: auto; 
+} */
+
+/* Link Styles */
+/* .nav-links a {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 25px;
+} */
+
+
+/* Button Styles */
+/* .button {
+    background-color: rgba(168, 28, 110, 0.75);;
+    border-radius: 10px;
+    padding: 10px;
+    width: 90px;
+    text-align: center;
+} */
+
+
+
+
+/* 
+@app.route('/layout')
+@login_required
+def layout():
+    predefined_tags = ['Tag1', 'Tag2', 'Tag3'] # Predefined tags for which users can choose
+    return render_template('layout.html', predefined_tags=predefined_tags)
+
+@app.route('/')
+@login_required
+def index():
+    tasks = Task.query.filter_by(user_id=current_user.id, done=False).limit(5).all()
+    remaining_tasks = Task.query.filter_by(user_id=current_user.id, done=False).offset(5).all()
+    username = current_user.username
+
+    predefined_tags = ['Tag1', 'Tag2', 'Tag3']  # Predefined tags for which users can choose
+    try:
+        response = requests.get('http://worldtimeapi.org/api/timezone/Africa/Lagos')
+        response.raise_for_status()
+        data = response.json()
+        api_datetime = data['datetime']
+        formatted_datetime = datetime.strptime(api_datetime, '%Y-%m-%dT%H:%M:%S.%f%z')
+        formatted_datetime_str = formatted_datetime.strftime('%A %B %d %Y %H:%M')
+        datetime_info = formatted_datetime_str
+    except Exception:
+        datetime_info = "N/A"
+
+    return render_template('index.html', predefined_tags=predefined_tags, tasks=tasks, remaining_tasks=remaining_tasks, username=username, datetime_info=datetime_info)
+
+@app.route('/add', methods=['POST'])
+@login_required
+def add():
+    task_text = request.form['study_items'].strip()
+    selected_tag = request.form['tag'] 
+
+    if not task_text:
+        flash('Cannot add an empty study item. Please enter a task.', 'error')
+        return redirect(url_for('index'))
+    
+    new_task = Task(task=task_text, user_id=current_user.id, tag=selected_tag)  # Passing the tag to the Task constructor
+
+    db.session.add(new_task)
+    db.session.commit()
+
+    return redirect(url_for('index')) */
