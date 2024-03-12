@@ -93,4 +93,4 @@ These are the routes that app.py serves:
 - '/completed' to view all completed study items 
 
 Click through all of the pages to see how they currently behave.
-Rendered app- 
+Rendered app- https://studymate.onrender.com
