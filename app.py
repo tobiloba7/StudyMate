@@ -133,21 +133,6 @@ def index_with_tag(tag):
     predefined_tags = [tag.name for tag in Tag.query.all()]
 
     return render_template('index.html', predefined_tags=predefined_tags, tasks=tasks, username=current_user.username)
-
-    # try:
-    #     response = requests.get('http://worldtimeapi.org/api/timezone/Africa/Lagos')
-    #     response.raise_for_status()
-    #     data = response.json()
-    #     api_datetime = data['datetime']
-    #     formatted_datetime = datetime.strptime(api_datetime, '%Y-%m-%dT%H:%M:%S.%f%z')
-    #     formatted_datetime_str = formatted_datetime.strftime('%A %B %d %Y %H:%M')
-    #     datetime_info = formatted_datetime_str
-    # except Exception:
-    #     datetime_info = "N/A"
-
-    # return render_template('index.html', predefined_tags=predefined_tags, tasks=tasks, remaining_tasks=remaining_tasks, username=username, datetime_info=datetime_info)
-
-
     
 @app.route('/add', methods=['POST'])
 @login_required
