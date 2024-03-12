@@ -52,6 +52,7 @@ The Studymate app uses Flask, SQLAlchemy and werkzeug.security
 - The code for managing the database is in the /instance folder.
 - The html files are in /templates folder
 - The stylesheets are in /static folder
+- The requirements are in requirements.txt
 
 ### Prerequisites
 - Python
@@ -77,9 +78,9 @@ The Studymate app uses Flask, SQLAlchemy and werkzeug.security
 
 These are the routes that app.py serves:
 
-- '/' is the index route, and it shows a the created study items
-- '/login' is the route to login to the app
-- '/register' is the registration route for new users
+- '/' is the index route, and it shows the study items
+- '/login' is the route to login to the app. When a user logins they are directed to the add item page
+- '/register' is the registration route for new users. Users are redirected to the login page after registering.
 - '/logout' is the route to log out
 
 **Task routes:**
@@ -92,4 +93,4 @@ These are the routes that app.py serves:
 - '/completed' to view all completed study items 
 
 Click through all of the pages to see how they currently behave.
-Rendered app- https://codecavetodoapp.onrender.com
+Rendered app- 
