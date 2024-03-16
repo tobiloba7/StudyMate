@@ -21,7 +21,7 @@
         <div class="container">
           <form action="{{ url_for('add') }}" method="post">
             <!-- dropdown to select tags -->
-            <select name="tag" required>
+            <select name="tag">
               <option value="" selected>Select a Category</option>
               {% for tag in predefined_tags %}
               <option value="{{ tag }}">{{ tag }}</option>

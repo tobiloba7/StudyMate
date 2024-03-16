@@ -16,7 +16,7 @@
         {% for item in completed_tasks %}
         <li class="study_items">
           <label>
-            <input type="checkbox" name="Done" checked disabled />
+            <input style="display: none" type="checkbox" name="Done" checked disabled />
             <span>{{ item.task }}</span>
           </label>
           <div class="actions">
