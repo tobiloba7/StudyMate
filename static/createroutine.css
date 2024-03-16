@@ -121,3 +121,19 @@ body {
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
 }
+
+.tag{
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+  text-decoration: none;
+  color: #5f2020;
+  font-weight: 500;
+  text-align: center;
+  font-size: 10px;
+  background-color: var(--primary);
+}
